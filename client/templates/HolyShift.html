@@ -1,19 +1,63 @@
 <head>
-  <title>HolyShift</title>
+    <title>HolyShift</title>
 </head>
 
 <body>
-	<div class="container">
-		<h1>Welcome to Meteor!</h1>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{{> hello}}
-			</div>			
-		</div>
-	</div>    
-</body>
+    <nav>
+        <div class="nav-wrapper blue darken-4">
+            <div class="container">
+                <a href="" class="brand-logo">Logo</a>
+                <a href="" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="sass.html"><i class="mdi-action-search"></i></a>
+                    </li>
+                    <li><a href="components.html"><i class="mdi-action-view-module"></i></a>
+                    </li>
+                    <li><a href="javascript.html"><i class="mdi-navigation-refresh"></i></a>
+                    </li>
+                    <li><a href="mobile.html"><i class="mdi-navigation-more-vert"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="sass.html">Sass</a>
+                </li>
+                <li><a href="components.html">Components</a>
+                </li>
+                <li><a href="javascript.html">Javascript</a>
+                </li>
+                <li><a href="mobile.html">Mobile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s5 offset-s1">
+                    <select class="timelength">
+                        <option value="0" disabled selected>Select timeslot length</option>
+                        <option value="1">:05</option>
+                        <option value="2">:10</option>
+                        <option value="3">:15</option>
+                        <option value="4">:20</option>
+                        <option value="5">:30</option>
+                        <option value="6">:60</option>
+                    </select>
+                </div>
+            </div>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    {{> freegrid}}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col s1 offset-s10">
+                    <a class="btn-floating btn-large waves-effect waves-light blue darken-4" id="availSubmitBtn"><i class="mdi-action-done"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

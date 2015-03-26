@@ -1,0 +1,23 @@
+<template name="freegrid">
+    <table id="selectable">
+        <table>
+            <thead>
+                <tr>
+                    <th class="timelabel">TIME</th>
+                    <th class="ui-widget-content colhead">SUN</th>
+                    <th class="ui-widget-content colhead">MON</th>
+                    <th class="ui-widget-content colhead">TUE</th>
+                    <th class="ui-widget-content colhead">WED</th>
+                    <th class="ui-widget-content colhead">THU</th>
+                    <th class="ui-widget-content colhead">FRI</th>
+                    <th class="ui-widget-content colhead">SAT</th>                                        
+                </tr>
+            </thead>
+            <tbody class="gridbody">
+                {{#each rows}} 
+                    {{> gridrow}}
+                {{/each}}
+            </tbody>
+        </table>
+    </table>
+</template>
