@@ -1,30 +1,30 @@
 if (Days.find().count() === 0) {
     Days.insert({
         name: "Sunday",
-        val: 0
-    });
-    Days.insert({
-        name: "Monday",
         val: 1
     });
     Days.insert({
-        name: "Tuesday",
+        name: "Monday",
         val: 2
     });
     Days.insert({
-        name: "Wednesday",
+        name: "Tuesday",
         val: 3
     });
     Days.insert({
-        name: "Thursday",
+        name: "Wednesday",
         val: 4
     });
     Days.insert({
-        name: "Friday",
+        name: "Thursday",
         val: 5
     });
     Days.insert({
-        name: "Saturday",
+        name: "Friday",
         val: 6
+    });
+    Days.insert({
+        name: "Saturday",
+        val: 7
     });
 }
