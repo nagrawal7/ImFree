@@ -79,7 +79,7 @@ Template.availability.rendered = function() {
                 updateAvailable(location, true);
             }
         }
-    });
+    });    
 }
 
 function determineLocation(cell) {
