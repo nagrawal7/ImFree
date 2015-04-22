@@ -3,14 +3,10 @@
         <table>
             <thead>
                 <tr>
-                    <th class="timelabel">TIME</th>
-                    <th class="ui-widget-content colhead">SUN</th>
-                    <th class="ui-widget-content colhead">MON</th>
-                    <th class="ui-widget-content colhead">TUE</th>
-                    <th class="ui-widget-content colhead">WED</th>
-                    <th class="ui-widget-content colhead">THU</th>
-                    <th class="ui-widget-content colhead">FRI</th>
-                    <th class="ui-widget-content colhead">SAT</th>                                        
+                    <th class="colhead timelabel"></th>
+                    {{#each days}}
+                        <th class="colhead">{{this}}</th>    
+                    {{/each}}                                       
                 </tr>
             </thead>
             <tbody class="gridbody">

@@ -10,3 +10,7 @@ materialize:materialize
 accounts-password
 iron:router
 accounts-ui
+msavin:mongol
+msavin:jetsetter
+underscore
+momentjs:moment

@@ -37,7 +37,18 @@ Template.availability.events({
     },
 
     "click #availSubmitBtn": function(event) {
-        alert(Session.get('available').length);
+        $('#gridcontainer').show();
+        var $input = $('.datepicker').pickadate();
+        var picker = $input.pickadate('picker');
+        
+        var asdf = moment(picker.get('select','mm/dd/yyyy'),'MM-DD-YYYY');
+        week = new Array(7);
+        for (var i = 0; i < 7; i++) {
+            week[i] = asdf.weekday(i).format();            
+        }
+        Session.set('week', week);
+
+        // alert(Session.get('available').length + "/" + parseInt($(timelength).find(':selected').text().substring(1)));
     }
 })
 
@@ -45,45 +56,36 @@ Template.availability.rendered = function() {
     $('#selectable').bind("mousedown", function(e) {
         e.metaKey = true;
     }).selectable({
-        filter: 'td.timeslot, th.colhead',
+        filter: 'td.timeslot',
         selecting: function(event, ui) {
-            if (ui.selecting.className.indexOf("colhead") > -1) {
-                var d = ui.selecting.cellIndex;
-                $('table tbody td:nth-child(' + (d + 1) + ')').addClass('ui-selected');
-                $($('table tbody td:nth-child(' + (d + 1) + ')')).parent().parent().children().each(
-                    function(index, el) {
-                        updateAvailable({
-                            day: d,
-                            row: Session.get('rows')[index]
-                        }, false);
-                    });
-            } else {
-                // TODO: SET IMPLEMENTATION 
-                var location = determineLocation(ui.selecting);
-                updateAvailable(location, false);
-            }
+            // TODO: SET IMPLEMENTATION 
+            var location = determineLocation(ui.selecting);
+            updateAvailable(location, false);
         },
         unselecting: function(event, ui) {
-            if (ui.unselecting.className.indexOf("colhead") > -1) {
-                var d = ui.unselecting.cellIndex;
-                $('table tbody td:nth-child(' + (d + 1) + ')').removeClass('ui-selected');
-                $($('table tbody td:nth-child(' + (d + 1) + ')')).parent().parent().children().each(
-                    function(index, el) {
-                        updateAvailable({
-                            day: d,
-                            row: Session.get('rows')[index]
-                        }, true);
-                    });
-            } else {
-                var location = determineLocation(ui.unselecting);
-                updateAvailable(location, true);
-            }
+            var location = determineLocation(ui.unselecting);
+            updateAvailable(location, true);            
         }
     });    
+
+    $('#gridcontainer').hide();
+
+    $('.dropdown-button').dropdown({
+            constrain_width: true, // Does not change width of dropdown to that of the activator
+            hover: false, // Activate on click
+            alignment: 'center', // Aligns dropdown to left or right edge (works with constrain_width)
+            belowOrigin: true // Displays dropdown below the button
+    });
+
+    $('select').material_select();
+
+    $('.datepicker').pickadate({
+            selectYears: 1 // Creates a dropdown of 15 years to control year
+    });
 }
 
 function determineLocation(cell) {
-    var myDay = cell.cellIndex;
+    var myDay = Session.get('week')[cell.cellIndex];
     var index = $(cell).parent().parent().children().index($(cell).parent());
     var myRow = Session.get('rows')[index];
     var obj = {

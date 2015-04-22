@@ -1,7 +1,7 @@
 <template name="availability">
     <div class="section">
-        <div class="row">
-            <div class="col s5">
+        <div class="row valign-wrapper">
+            <div class="col s5 offset-s1">
                 <select id="timelength">
                     <option value="0" disabled selected>Select timeslot length</option>
                     <option value="1">:05</option>
@@ -13,38 +13,17 @@
                 </select>
             </div>
             <div class="col s3">
-                <label for="starttime" class>Start Time</label>
-                <input type="date" class="datepicker" id="starttime">
+                <label for="week" class>Week</label>
+                <input type="date" class="datepicker" id="week">
             </div>
-            <div class="col s3">
-                <label for="endtime" class>End Time</label>
-                <input type="date" class="datepicker" id="endtime">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s10 offset-s1">
-                {{> freegrid}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s1 offset-s10">
+            <div class="col s1 offset-s1">
                 <a class="btn-floating btn-large waves-effect waves-light blue darken-4" id="availSubmitBtn"><i class="mdi-action-done"></i></a>
             </div>
         </div>
-        <script type="text/javascript">
-        $('.dropdown-button').dropdown({
-            constrain_width: true, // Does not change width of dropdown to that of the activator
-            hover: false, // Activate on click
-            alignment: 'center', // Aligns dropdown to left or right edge (works with constrain_width)
-            belowOrigin: true // Displays dropdown below the button
-        });
-
-        $('select').material_select();
-
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15 // Creates a dropdown of 15 years to control year
-        });
-        </script>
+        <div class="row">
+            <div class="col s10 offset-s1" id="gridcontainer">
+                {{> freegrid}}
+            </div>
+        </div>
     </div>
 </template>
