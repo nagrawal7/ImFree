@@ -1,1 +1,1 @@
-Meteor.subscribe('days');
+Meteor.subscribe('availability');

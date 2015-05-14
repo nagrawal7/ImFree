@@ -3,6 +3,7 @@ Template.availability.events({
         var duration = parseInt($(event.currentTarget).find(':selected').text().substring(1));
         var numcols = 24 * 60 / duration;
 
+        // rewrite this to use moment and then iterate
         var array = new Array(numcols);
         var curHr = 12;
         var curMin = "00";
@@ -41,14 +42,13 @@ Template.availability.events({
         var $input = $('.datepicker').pickadate();
         var picker = $input.pickadate('picker');
         
-        var asdf = moment(picker.get('select','mm/dd/yyyy'),'MM-DD-YYYY');
+        var selectedDate = moment(picker.get('select','mm/dd/yyyy'),'MM-DD-YYYY');
+        console.log(selectedDate);
         week = new Array(7);
         for (var i = 0; i < 7; i++) {
-            week[i] = asdf.weekday(i).format();            
+            week[i] = selectedDate.weekday(i).format();
         }
         Session.set('week', week);
-
-        // alert(Session.get('available').length + "/" + parseInt($(timelength).find(':selected').text().substring(1)));
     }
 })
 
@@ -80,14 +80,19 @@ Template.availability.rendered = function() {
     $('select').material_select();
 
     $('.datepicker').pickadate({
-            selectYears: 1 // Creates a dropdown of 15 years to control year
+        selectYears: 1 // Creates a dropdown of 15 years to control year
     });
+    
+    if (! Availability.findOne()) {
+        Availability.insert({user: Meteor.userId()});
+    }
+    // console.log(Availability.findOne());
 }
 
 function determineLocation(cell) {
     var myDay = Session.get('week')[cell.cellIndex];
     var index = $(cell).parent().parent().children().index($(cell).parent());
-    var myRow = Session.get('rows')[index];
+    var myRow = Session.get('rows')[index];    
     var obj = {
         day: myDay,
         row: myRow
