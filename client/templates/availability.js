@@ -2,37 +2,14 @@ Template.availability.events({
     "change #timelength": function(event) {
         var duration = parseInt($(event.currentTarget).find(':selected').text().substring(1));
         var numcols = 24 * 60 / duration;
-
-        // rewrite this to use moment and then iterate
         var array = new Array(numcols);
-        var curHr = 12;
-        var curMin = "00";
-        var curPeriod = "AM";
-
+        var time = moment();
+        time.hour(0);
+        time.minute(0);
+        time.second(0);
         for (var i = 0; i < array.length; i++) {
-            array[i] = {
-                hour: curHr,
-                min: curMin,
-                period: curPeriod
-            };
-            var numCurMin = parseInt(curMin) + duration;
-            if (numCurMin >= 60) {
-                numCurMin = numCurMin % 60;
-                curHr = curHr + 1;
-            }
-            if (numCurMin / 10 == 0) {
-                curMin = "0" + numCurMin.toString();
-            } else {
-                curMin = numCurMin.toString();
-            }
-
-            if (curHr > 12) {
-                curHr = 1;
-            }
-
-            if (curHr > 11 && i >= (60 / duration)) {
-                curPeriod = "PM";
-            }
+            array[i] = time.format();
+            time.minute(time.minute() + duration);            
         }
         Session.set('rows', array);
     },
@@ -43,7 +20,6 @@ Template.availability.events({
         var picker = $input.pickadate('picker');
         
         var selectedDate = moment(picker.get('select','mm/dd/yyyy'),'MM-DD-YYYY');
-        console.log(selectedDate);
         week = new Array(7);
         for (var i = 0; i < 7; i++) {
             week[i] = selectedDate.weekday(i).format();
@@ -97,6 +73,7 @@ function determineLocation(cell) {
         day: myDay,
         row: myRow
     };
+    console.log(obj);
     return obj;
 }
 
@@ -104,8 +81,7 @@ function updateAvailable(obj, toDelete) {
     var array = Session.get('available');
     var found = false;
     for (var i = 0; i < array.length; i++) {
-        if (array[i].day === obj.day && array[i].row.hour === obj.row.hour &&
-            array[i].row.min === obj.row.min && array[i].row.period === obj.row.period) {
+        if (array[i].day === obj.day && array[i].row === obj.row) {
             if (toDelete) {
                 array.splice(i, 1);
                 Session.set('available', array);

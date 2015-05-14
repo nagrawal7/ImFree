@@ -3,7 +3,7 @@ Session.setDefault('available', []);
 
 Template.freegrid.helpers({
     rows: function() {    	
-        return Session.get('rows');
+        return _.map(Session.get('rows'), function(str) { return moment(str).format("LT")});
     },
     available: function() {
     	return Session.get('available');    	
