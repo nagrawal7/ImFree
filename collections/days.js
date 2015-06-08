@@ -1,11 +1,15 @@
-Availability = new Meteor.Collection('availability');
+Days = new Meteor.Collection('days');
 
-Availability.allow({
+Days.allow({
     insert: function(userId, doc) {
         // only allow posting if you are logged in		
         return !!userId;
     },
     update: function(userId, doc) {
+    	// TODO: make sure its the right one
+    	return !!userId;
+    },
+    remove: function(userId, doc) {
     	// TODO: make sure its the right one
     	return !!userId;
     }

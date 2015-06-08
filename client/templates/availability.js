@@ -34,13 +34,12 @@ Template.availability.rendered = function() {
     }).selectable({
         filter: 'td.timeslot',
         selecting: function(event, ui) {
-            // TODO: SET IMPLEMENTATION 
-            var location = determineLocation(ui.selecting);
-            updateAvailable(location, false);
+            var formattedTime = determineLocation(ui.selecting);
+            addAvail(formattedTime);
         },
         unselecting: function(event, ui) {
-            var location = determineLocation(ui.unselecting);
-            updateAvailable(location, true);
+            var formattedTime = determineLocation(ui.unselecting);
+            removeAvail(formattedTime);
         }
     });
 
@@ -66,27 +65,58 @@ function determineLocation(cell) {
     var myRow = moment(Session.get('rows')[index]);
     myDay.hour(myRow.hour());
     myDay.minute(myRow.minute());
-    var obj = myDay.format();
-    console.log(obj);
-    return obj;
+    var formattedTime = myDay.format();
+    return formattedTime;
 }
 
-function updateAvailable(obj, toDelete) {
-    var array = Session.get('available');
-    var found = false;
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] === obj) {
-            if (toDelete) {
-                array.splice(i, 1);
-                Session.set('available', array);
-                return;
-            }
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
-        array.push(obj);
-    }
-    Session.set('available', array);
+// if we don't have this day for this availability create it and add it
+// add the specified slot to that day once obtained
+function addAvail(time) {
+    // determine day string
+    var selectedMoment = moment(time);
+    selectedMoment.hour(0);
+    selectedMoment.minute(0);
+    var sDay = selectedMoment.format();
+
+    var myAvail = Availability.findOne();
+
+    if (Days.findOne({date: sDay, availability: myAvail._id})) {
+
+        // pick selected day and add current timeslot to day
+        var selectedDay = Days.findOne({date: sDay, availability: myAvail._id});
+        Days.update(selectedDay._id, {$addToSet: {slots: [time] }});
+    }   
+    else {
+
+        // create day for this availability with given slot
+        var selectedDay = {
+            availability: myAvail._id,
+            date: selectedMoment.format(),
+            slots: [time]
+        };
+        var insertedID = Days.insert(selectedDay);
+
+        // update availability to reference this day
+        Availability.update(myAvail._id, {$addToSet: {days: [insertedID] }});
+    }    
+    
+}
+
+// this slot must be deleted from both the day and the days array in availability
+function removeAvail(time) {
+    // determine day string
+    var selectedMoment = moment(time);
+    selectedMoment.hour(0);
+    selectedMoment.minute(0);
+    var sDay = selectedMoment.format();
+
+    var myAvail = Availability.findOne();
+
+    if (Days.findOne({date: sDay, availability: myAvail._id})) {
+        // pick selected day delete it
+        var deleteID = Days.findOne({date: sDay, availability: myAvail._id})._id;
+        Days.remove(deleteID);
+
+        Availability.update(myAvail._id, {$pull: {days: [deleteID] }});
+    }     
 }

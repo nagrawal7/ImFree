@@ -2,28 +2,26 @@
 
 ## Tasks
 
-* set block avail --> create a day object for that day if it doesn't exist. add that time slot. link this day object to the availability
+1. link availability to rendering the grid
+2. Handle 5 min increment to length conversions
+3. come up with a new name
 
-* link availability to rendering the grid
-* Add set implementation of Availability
-* Store everything as 5 min Availiability segmenets even for :15, :30, :60
-	* later make sure this converts correctly
+## Next Features
+
+* import calendars
+	* google, outlook, duke
+* sharing / exporting
+	* link with grid view, table of times
+	* image
 
 ## Notes
 
 * only accept current and future dates
 * when rendering a week, you query for those 7 days, determine which slots are available and render those green
 
-```
-for i = 0,...,6:
-	for each availslot in avail.find({date: week.getDay(i)}):
-		render availslot selected
-	endfor
-endfor
-```
-
-freegrid > rows (stored as duration or increment in Collection, set to 5 min to begin)
-
 for each row in grid:
 	for each day in row:
 		timeslot.doSomething
+
+
+* need it to be quick to render weeks
