@@ -8,7 +8,9 @@ Template.availability.events({
         time.minute(0);
         time.second(0);
         for (var i = 0; i < array.length; i++) {
-            array[i] = time.format();
+            array[i] = {
+                time: time.format()
+            };
             time.minute(time.minute() + duration);
         }
         Session.set('rows', array);
@@ -22,7 +24,9 @@ Template.availability.events({
         var selectedDate = moment(picker.get('select', 'mm/dd/yyyy'), 'MM-DD-YYYY');
         week = new Array(7);
         for (var i = 0; i < 7; i++) {
-            week[i] = selectedDate.weekday(i).format();
+            week[i] = {
+                weekday: selectedDate.weekday(i).format()
+            };
         }
         Session.set('week', week);
     }
@@ -60,9 +64,9 @@ Template.availability.rendered = function() {
 }
 
 function determineLocation(cell) {
-    var myDay = moment(Session.get('week')[cell.cellIndex-1]);
+    var myDay = moment(Session.get('week')[cell.cellIndex-1].weekday);
     var index = $(cell).parent().parent().children().index($(cell).parent());
-    var myRow = moment(Session.get('rows')[index]);
+    var myRow = moment(Session.get('rows')[index].time);
     myDay.hour(myRow.hour());
     myDay.minute(myRow.minute());
     var formattedTime = myDay.format();

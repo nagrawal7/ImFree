@@ -1,3 +1,7 @@
 <template name="timeslot">
-	<td class="ui-widget-content timeslot"></td>
+	{{#if selected}}
+		<td class="ui-widget-content timeslot ui-selected"></td>
+	{{else}}
+		<td class="ui-widget-content timeslot"></td>
+	{{/if}}
 </template>

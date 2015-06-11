@@ -2,9 +2,11 @@
 
 ## Tasks
 
-1. link availability to rendering the grid
+1. rewrite schema to use slots instead of days
+	a. handle the multiple selection
 2. Handle 5 min increment to length conversions
 3. come up with a new name
+
 
 ## Next Features
 

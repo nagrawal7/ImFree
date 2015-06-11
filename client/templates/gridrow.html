@@ -1,8 +1,13 @@
 <template name="gridrow">
-	<tr>
+	<tr>		
 		{{> timelabel}}
-		{{#each days}} 
-			{{> timeslot}}
+
+		{{#each week}} 
+			{{#if checkAvailable weekday ..}}
+				{{> timeslot selected=true}}
+			{{else}}				
+				{{> timeslot selected=false}}
+			{{/if}}
 		{{/each}}
 	</tr>
  </template>
