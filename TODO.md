@@ -1,17 +1,18 @@
-# TODOS
+# TODOS for MyAvail
 
 ## Tasks
 
 1. rewrite schema to use slots instead of days
 	a. handle the multiple selection
 2. Handle 5 min increment to length conversions
-3. come up with a new name
-
+3. import google calendar
 
 ## Next Features
 
 * import calendars
-	* google, outlook, duke
+	* google: should be fairly workable
+	* outlook: 
+	* duke
 * sharing / exporting
 	* link with grid view, table of times
 	* image
