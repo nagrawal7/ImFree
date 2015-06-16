@@ -87,8 +87,13 @@ function addAvail(time) {
     if (Days.findOne({date: sDay, availability: myAvail._id})) {
 
         // pick selected day and add current timeslot to day
-        var selectedDay = Days.findOne({date: sDay, availability: myAvail._id});
-        Days.update(selectedDay._id, {$addToSet: {slots: [time] }});
+        var selectedDay = Days.findOne({
+            date: sDay, 
+            availability: myAvail._id
+        });
+        Days.update(selectedDay._id, {
+            $addToSet: {slots: [time] }
+        });
     }   
     else {
 
@@ -101,7 +106,10 @@ function addAvail(time) {
         var insertedID = Days.insert(selectedDay);
 
         // update availability to reference this day
-        Availability.update(myAvail._id, {$addToSet: {days: [insertedID] }});
+        Availability.update(myAvail._id, {$addToSet: {days: {
+            day: sDay,
+            id: insertedID
+        } }});
     }    
     
 }
@@ -115,12 +123,23 @@ function removeAvail(time) {
     var sDay = selectedMoment.format();
 
     var myAvail = Availability.findOne();
+    for (var i = 0; i < myAvail.days.length; i++) {
+        if (myAvail.days[i].day === sDay) {
+            // remove timeslot from correct day
+            Days.update(myAvail.days[i].id, {$pull: {
+                slots: time
+            }});
+            // if now empty, remove it entirely
+            if (Days.findOne(myAvail.days[i].id).slots.length == 0) {
+                Days.remove(myAvail.days[i].id);
+                Availability.update(myAvail._id, {$pull: {days: {
+                    day: sDay,
+                    id: myAvail.days[i].id
+                }}});
 
-    if (Days.findOne({date: sDay, availability: myAvail._id})) {
-        // pick selected day delete it
-        var deleteID = Days.findOne({date: sDay, availability: myAvail._id})._id;
-        Days.remove(deleteID);
+            }
 
-        Availability.update(myAvail._id, {$pull: {days: [deleteID] }});
-    }     
+            break;
+        }
+    }   
 }
