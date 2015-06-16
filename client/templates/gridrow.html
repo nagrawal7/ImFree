@@ -3,7 +3,7 @@
 		{{> timelabel}}
 
 		{{#each week}} 
-			{{#if checkAvailable weekday ..}}
+			{{#if checkAvailable this ..}}
 				{{> timeslot selected=true}}
 			{{else}}				
 				{{> timeslot selected=false}}

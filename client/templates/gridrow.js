@@ -5,7 +5,7 @@ Template.gridrow.helpers({
 	checkAvailable: function(day, time) {
 		var currentDay = day + "";
 		var selectedDay = moment(currentDay);		
-		var currentTime = time.time + ""; // cast to string	
+		var currentTime = time + ""; // cast to string	
 		var selectedTime = moment(currentTime);
 
 		selectedDay.hour(selectedTime.hour());

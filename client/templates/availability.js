@@ -8,9 +8,7 @@ Template.availability.events({
         time.minute(0);
         time.second(0);
         for (var i = 0; i < array.length; i++) {
-            array[i] = {
-                time: time.format()
-            };
+            array[i] = time.format();
             time.minute(time.minute() + duration);
         }
         Session.set('rows', array);
@@ -24,9 +22,7 @@ Template.availability.events({
         var selectedDate = moment(picker.get('select', 'mm/dd/yyyy'), 'MM-DD-YYYY');
         week = new Array(7);
         for (var i = 0; i < 7; i++) {
-            week[i] = {
-                weekday: selectedDate.weekday(i).format()
-            };
+            week[i] = selectedDate.weekday(i).format();
         }
         Session.set('week', week);
     }
@@ -61,12 +57,14 @@ Template.availability.rendered = function() {
     $('.datepicker').pickadate({
         selectYears: 1 // Creates a dropdown of 15 years to control year
     });
+
+    Session.set('week', []);
 }
 
 function determineLocation(cell) {
-    var myDay = moment(Session.get('week')[cell.cellIndex-1].weekday);
+    var myDay = moment(Session.get('week')[cell.cellIndex-1]);
     var index = $(cell).parent().parent().children().index($(cell).parent());
-    var myRow = moment(Session.get('rows')[index].time);
+    var myRow = moment(Session.get('rows')[index]);
     myDay.hour(myRow.hour());
     myDay.minute(myRow.minute());
     var formattedTime = myDay.format();
