@@ -90,7 +90,7 @@ function addAvail(time) {
             availability: myAvail._id
         });
         Days.update(selectedDay._id, {
-            $addToSet: {slots: [time] }
+            $addToSet: {slots: time }
         });
     }   
     else {
@@ -98,7 +98,7 @@ function addAvail(time) {
         // create day for this availability with given slot
         var selectedDay = {
             availability: myAvail._id,
-            date: selectedMoment.format(),
+            date: sDay,
             slots: [time]
         };
         var insertedID = Days.insert(selectedDay);
@@ -121,6 +121,7 @@ function removeAvail(time) {
     var sDay = selectedMoment.format();
 
     var myAvail = Availability.findOne();
+    
     for (var i = 0; i < myAvail.days.length; i++) {
         if (myAvail.days[i].day === sDay) {
             // remove timeslot from correct day
