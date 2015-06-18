@@ -7,7 +7,4 @@
 3. sharing / exporting
 	* link with grid view, table of times
 	* image
-
-## Notes
-
-* only accept current and future dates
+4. make responsive for mobile and tablets

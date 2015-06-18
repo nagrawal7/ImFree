@@ -1,3 +1,6 @@
+body {
+	font-family: 'Dosis', 'Quicksand', sans-serif;
+}
 .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
 	background-color: #0d47a1;
 }
