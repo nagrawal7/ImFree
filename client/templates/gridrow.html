@@ -1,6 +1,8 @@
 <template name="gridrow">
 	<tr>		
-		{{> timelabel}}
+		{{# if checkHour this}}
+			{{> timelabel}}
+		{{/if}}
 
 		{{#each week}} 
 			{{#if checkAvailable this ..}}

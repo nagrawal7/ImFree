@@ -34,5 +34,10 @@ Template.gridrow.helpers({
     	// else {
     	// 	return false;
     	// }
+	},
+	checkHour: function(time) {
+		var currentTime = time + "";
+		var selectedTime = moment(currentTime);
+		return (selectedTime.minute() == 0);
 	}
 });

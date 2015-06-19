@@ -26,12 +26,19 @@ body {
   color: #0d47a1;
 }
 
+thead {
+	border: none;
+}
+
+td.timeslot {
+  	border-radius: 0px;
+}
 
 .timelabel {
-	font-size: 8px;
+	font-size: 14px;
 	vertical-align: center;
 	text-align: center;
-	padding: 0px 0px;
+	padding: 5px 5px;
 }
 
 .colhead {

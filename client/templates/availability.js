@@ -1,19 +1,4 @@
-Template.availability.events({
-    "change #timelength": function(event) {
-        var duration = parseInt($(event.currentTarget).find(':selected').text().substring(1));
-        var numcols = 24 * 60 / duration;
-        var array = new Array(numcols);
-        var time = moment();
-        time.hour(0);
-        time.minute(0);
-        time.second(0);
-        for (var i = 0; i < array.length; i++) {
-            array[i] = time.format();
-            time.minute(time.minute() + duration);
-        }
-        Session.set('rows', array);
-    },
-
+Template.availability.events({    
     "click #availSubmitBtn": function(event) {
         $('#gridcontainer').show();
         var $input = $('.datepicker').pickadate();
@@ -57,6 +42,20 @@ Template.availability.rendered = function() {
     $('.datepicker').pickadate({
         selectYears: 1 // Creates a dropdown of 15 years to control year
     });
+
+
+    var duration = 15; // mins
+    var numcols = 24 * 60 / duration;
+    var array = new Array(numcols);
+    var time = moment();
+    time.hour(0);
+    time.minute(0);
+    time.second(0);
+    for (var i = 0; i < array.length; i++) {
+        array[i] = time.format();
+        time.minute(time.minute() + duration);
+    }
+    Session.set('rows', array);
 
     Session.set('week', []);
 }
