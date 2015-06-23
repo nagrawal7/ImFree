@@ -61,9 +61,16 @@ Template.availability.rendered = function() {
 }
 
 function determineLocation(cell) {
-    var myDay = moment(Session.get('week')[cell.cellIndex-1]);
+
     var index = $(cell).parent().parent().children().index($(cell).parent());
     var myRow = moment(Session.get('rows')[index]);
+    var myDay;
+    if (myRow.minute() == 0) { // handle the top of the hour rows
+        myDay = moment(Session.get('week')[cell.cellIndex-1]);
+    } else {
+        myDay = moment(Session.get('week')[cell.cellIndex]);
+    }
+        
     myDay.hour(myRow.hour());
     myDay.minute(myRow.minute());
     var formattedTime = myDay.format();
@@ -77,6 +84,7 @@ function addAvail(time) {
     var selectedMoment = moment(time);
     selectedMoment.hour(0);
     selectedMoment.minute(0);
+    selectedMoment.second(0);
     var sDay = selectedMoment.format();
 
     var myAvail = Availability.findOne();
@@ -117,6 +125,7 @@ function removeAvail(time) {
     var selectedMoment = moment(time);
     selectedMoment.hour(0);
     selectedMoment.minute(0);
+    selectedMoment.second(0);
     var sDay = selectedMoment.format();
 
     var myAvail = Availability.findOne();

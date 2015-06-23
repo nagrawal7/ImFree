@@ -31,14 +31,16 @@ thead {
 }
 
 td.timeslot {
+	border-color: black;
   	border-radius: 0px;
 }
 
 .timelabel {
+	border-top: 1px solid black;
 	font-size: 14px;
 	vertical-align: center;
 	text-align: center;
-	padding: 5px 5px;
+	padding: 10px 5px;
 }
 
 .colhead {
