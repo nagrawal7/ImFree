@@ -1,11 +1,40 @@
-<template name="welcome">
-	<div class="container">
-		<div class="section">
-			<div class="row">
-				<div class="col s5 offset-s1">
-					{{> loginButtons}}
-				</div>
-			</div>
-		</div>
-	</div>
+<template name="welcome">	 
+    <div class="card">
+        <div class="card-image waves-effect waves-block">
+            <img class="responsive-img" src="/splash.jpg">
+            <a class="card-title" href="http://www.freepik.com" style="font-size: 8px">Designed by Freepik</a>
+        </div>
+        <div class="card-content">
+            <h2>I'm free. It's just that easy. Now share your availability faster than ever before!</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m4 l4">
+        	<div class="card-panel small">
+        		<div class="card-content center-align">
+        			<span><i class="material-icons" style="font-size: 48px">view_module</i></span>
+        			<h4>Responsive User Interface</h4>
+        			<p>I'm Free makes it extremely easy to  update and view your availability on a weekly basis.</p>
+        		</div>
+        	</div>                               
+        </div>
+        <div class="col s12 m4 l4">
+        	<div class="card-panel small">
+        		<div class="card-content center-align">
+        			<span><i class="material-icons" style="font-size: 48px">event</i></span>        			
+        			<h4>Google Calender Integration</h4>
+        			<p>Seamlessly import your existing schedule from Google Calender into the I'm Free user interface.</p>
+        		</div>
+        	</div>
+        </div>
+        <div class="col s12 m4 l4">
+        	<div class="card-panel small">
+        		<div class="card-content center-align">
+        			<span><i class="material-icons" style="font-size: 48px">open_in_new</i></span>
+        			<h4>Versatile Export Functionality</h4>
+        			<p>Let others know you're free with a link, image, or .ICS file of your week's schedule</p>
+        		</div>
+        	</div>            
+        </div>
+    </div>    
 </template>
