@@ -8,6 +8,10 @@ Router.map(function() {
         path: '/availability'
     });
 
+    this.route('import', {
+        path: '/import'
+    });
+
     this.route('welcome', {
         path: '/'
     });
@@ -24,6 +28,7 @@ var requireLogin = function() {
 		this.next(); 
 	}
 }
+
 Router.before(requireLogin, {
-    only: 'availability'
-})
+    only: ['availability', 'import']
+});
