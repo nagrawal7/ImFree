@@ -12,6 +12,10 @@ Router.map(function() {
         path: '/import'
     });
 
+    this.route('export', {
+        path: '/export'
+    });
+
     this.route('welcome', {
         path: '/'
     });
@@ -22,13 +26,13 @@ var requireLogin = function() {
 		if (Meteor.loggingIn()) {
 			this.render(this.loadingTemplate);
 		} else {
-			this.render('accessDenied');			
-		}					
+			this.render('accessDenied');
+		}
 	} else {
-		this.next(); 
+		this.next();
 	}
 }
 
 Router.before(requireLogin, {
-    only: ['availability', 'import']
+    only: ['availability', 'import', 'export']
 });
