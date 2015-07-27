@@ -73,36 +73,80 @@ function listUpcomingEvents() {
             busyTimes.push({
                 start: event.start.dateTime,
                 end: event.end.dateTime
-            })            
+            })
         }
-
-        imFree(selectedDate.weekday(0).format());    
+        imFree(selectedDate.weekday(0).format());
         addBusyTimes(busyTimes);
-        
+        alert("Import Successful!");
     });
 }
 
 function imFree(weekStart) {
-    // make everything in the week free
-    // then call add busy times afterwards
-
+    // make everything in the week is free
     var startDay = moment(weekStart);
+    var increment = 15;
     for (var i = 0; i < 7; i++) {
         var day = startDay.weekday(i);
-        // create day and add it to my avail
-        
-        // go thru day and add all the slots
+        var availDay = getDay(day);
+        var availSlots = [];
+        for (var j = 0; j < 96; j++) {
+          availSlots.push(day.format());
+          day.minute(day.minute() + increment);
+        }
+
+        Days.update(availDay._id, {
+          $addToSet: { slots: { $each: availSlots } }
+        });
     }
 }
+
+// if we don't have this day for this availability create it and add it
+function getDay(selectedMoment) {
+    selectedMoment.hour(0);
+    selectedMoment.minute(0);
+    selectedMoment.second(0);
+    var sDay = selectedMoment.format();
+    var myAvail = Availability.findOne();
+    if (!Days.findOne({date: sDay, availability: myAvail._id})) {
+      // create day for this availability with given slot
+      var selectedDay = {
+          availability: myAvail._id,
+          date: sDay,
+          slots: []
+      };
+      var insertedID = Days.insert(selectedDay);
+
+      // update availability to reference this day
+      Availability.update(myAvail._id, {$addToSet: {days: {
+          day: sDay,
+          id: insertedID
+      } }});
+      return selectedDay;
+    }
+    else {
+      return Days.findOne({
+          date: sDay,
+          availability: myAvail._id
+      });
+    }
+}
+
 
 function addBusyTimes(busyTimes) {
     busyTimes.forEach(function (time) {
         var startFormatted = computeStartBlock(time.start);
         var endFormatted = computeEndBlock(time.end);
+        var currentBlock = moment(startFormatted);
+        var endBlock = moment(endFormatted);
+        var toRemove = []
 
-        // while (time < endformatted) 
-        //      create and add this day to availability if necessary
-        //      add the slot to the day if it is not already present
+        while (currentBlock.isBefore(endBlock)) {
+            var availDay = getDay(currentBlock.clone());
+            Days.update(availDay._id, {$pull: {
+                 slots: currentBlock.format()
+            }});
+            currentBlock.minute(currentBlock.minute() + 15);
+        }
     });
 }
 
@@ -112,11 +156,11 @@ function computeStartBlock(startTime) {
     if (minute > 0 && minute < 14) {
         time.minute(0);
     } else if (minute > 15 && minute < 30) {
-        time.minute(15);        
+        time.minute(15);
     } else if (minute > 30 && minute < 45) {
-        time.minute(30);        
+        time.minute(30);
     } else if (minute > 45 && minute < 60) {
-        time.minute(45);        
+        time.minute(45);
     }
     return time.format();
 }
@@ -127,12 +171,12 @@ function computeEndBlock(startTime) {
     if (minute > 0 && minute < 14) {
         time.minute(15);
     } else if (minute > 15 && minute < 30) {
-        time.minute(30);        
+        time.minute(30);
     } else if (minute > 30 && minute < 45) {
-        time.minute(45);        
+        time.minute(45);
     } else if (minute > 45 && minute < 60) {
         time.minute(0);
-        time.hour(time.hour() + 1);        
+        time.hour(time.hour() + 1);
     }
     return time.format();
 }
